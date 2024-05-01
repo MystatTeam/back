@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import studentService from "../services/student.service.js";
+import studentService from "../services/studentService.js";
 
 export const post = async (req: Request, res: Response) => {
     // call method from student.service

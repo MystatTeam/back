@@ -5,7 +5,7 @@ import express, { Express } from "express";
 
 import cors from 'cors';
 
-import studentRouter from './routers/student.router.js';
+import studentRouter from './routers/studentRouter.js';
 
 import './db/index.js';
 
