@@ -1,18 +1,21 @@
+import { IStudent, IStudentModel, StudentModel } from "../models/StudentModel";
+
 class StudentService {
-    async createStudent() {
-        // interact with db
+    async createStudent(studentData: Partial<IStudent>): Promise<IStudentModel> {
+        // const passwordHash = authService.hashPassword(password);
+        return await StudentModel.create(studentData);
     }
-    async findAllStudents() {
-        // interact with db
+    async findAllStudents(): Promise<IStudentModel[] | null> {
+        return await StudentModel.find();
     }
-    async findStudentById() {
-        // interact with db
+    async findStudentById(id: string): Promise<IStudentModel | null> {
+        return await StudentModel.findById(id);
     }
-    async updateStudent() {
-        // interact with db
+    async updateStudent(id: string, userData: Partial<IStudent>): Promise<IStudentModel | null> {
+        return await StudentModel.findByIdAndUpdate({_id: id}, userData);
     }
-    async removeStudent() {
-        // interact with db
+    async removeStudent(id: string): Promise<IStudentModel | null> {
+        return await StudentModel.findByIdAndDelete(id);
     }
 }
 
