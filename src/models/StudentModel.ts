@@ -19,6 +19,7 @@ export interface IStudent {
         coins: number;
         rewards: number;
     };
+    refreshToken: string
 }
 
 // data type which will be returned after interaction with db and must be returned to client
@@ -79,6 +80,9 @@ const StudentSchema: Schema = new Schema<IStudent>(
                 default: 0,
             },
         },
+        refreshToken: {
+            type: String
+        }
     },
     {
         timestamps: true,
