@@ -4,17 +4,17 @@ import { IStudentModel } from "../models/StudentModel.js";
 
 export const post = async (req: Request, res: Response) => {
     try {
-        console.log(req.body);
         const { password, ...userData } = req.body;
         const file = req.file;
-        userData.passwordHash = "djkfs02"+password;
-        const createdStudent: IStudentModel = await studentService.createStudent({
+
+        const createdStudent: IStudentModel = await studentService.createStudent(password, {
             userPhoto: {
                 data: file?.buffer,
                 contentType: file?.mimetype
             },
             ...userData
         });
+        
         const {passwordHash, ...studentData} = createdStudent._doc;
         
         res.status(200).json({
