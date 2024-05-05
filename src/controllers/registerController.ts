@@ -1,5 +1,6 @@
 import { StudentModel } from '../models/StudentModel';
 const bcrypt = require('bcrypt');
+import studentService from "../services/studentService.js";
 import { Request, Response } from "express";
 
 export const handleNewUser = async (req: Request, res: Response) => {
@@ -7,9 +8,8 @@ export const handleNewUser = async (req: Request, res: Response) => {
     if (!user || !pwd) return res.status(400).json({ 'message': 'Username and password are required.' });
 
     // check for duplicate usernames in the db
-    // const duplicate = await Student.findOne({ username: user }).exec();
-    // const duplicate = await Student.findOne({ login: user}).exec();
-    const duplicate = await StudentModel.findOne({ login: user}).exec();
+    const duplicate = await studentService.checkIfUserExists(user)
+    const duplicate1 = await StudentModel.findOne({ login: user}).exec();
     if (duplicate) return res.sendStatus(409); //Conflict 
 
     try {

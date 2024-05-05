@@ -17,6 +17,9 @@ class StudentService {
     async removeStudent(id: string): Promise<IStudentModel | null> {
         return await StudentModel.findByIdAndDelete(id);
     }
+    async checkIfUserExists(login: string): Promise<IStudentModel | null> {
+        return await StudentModel.findOne({ login: login}).exec();
+    }
 }
 
 export default new StudentService();
