@@ -1,8 +1,8 @@
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 import studentService from "../services/studentService.js";
 import { IStudentModel } from "../models/StudentModel.js";
 
-export const post = async (req: Request, res: Response) => {
+export const post = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const { password, ...userData } = req.body;
         const file = req.file;
@@ -22,16 +22,16 @@ export const post = async (req: Request, res: Response) => {
             
             res.status(200).json({
                 studentData,
-                password
             });
         }
         
         
     } catch (error) {
         console.log(error);
-        res.status(500).json({
-            message: "Internal error",
-        });
+        next(error)
+        // res.status(500).json({
+        //     message: "Internal error",
+        // });
     }
 }
 export const getAll = async (req: Request, res: Response) => {

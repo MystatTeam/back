@@ -15,7 +15,9 @@ class StudentService {
         return await StudentModel.findById(id);
     }
     async updateStudent(id: string, userData: Partial<IStudent>): Promise<IStudentModel | null> {
-        return await StudentModel.findByIdAndUpdate({_id: id}, userData);
+        return await StudentModel.findByIdAndUpdate({_id: id}, userData, {
+            new: true
+        });
     }
     async removeStudent(id: string): Promise<IStudentModel | null> {
         return await StudentModel.findByIdAndDelete(id);
