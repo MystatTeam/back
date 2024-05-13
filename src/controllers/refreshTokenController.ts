@@ -1,3 +1,4 @@
+import studentService from '../services/studentService';
 import { StudentModel } from '../models/StudentModel';
 const jwt = require('jsonwebtoken');
 import { Request, Response } from "express";
@@ -14,19 +15,10 @@ export const handleRefreshToken = async (req: Request, res: Response) => {
     jwt.verify(
         refreshToken,
         process.env.REFRESH_TOKEN_SECRET,
-        (err: any, decoded: { username: String; }) => {
+        async (err: any, decoded: { username: string; }) => {
             if (err || foundUser.login !== decoded.username) return res.sendStatus(403);
-            // const roles = Object.values(foundUser.roles);
-            const accessToken = jwt.sign(
-                {
-                    "UserInfo": {
-                        "username": decoded.username,
-                        // "roles": roles
-                    }
-                },
-                process.env.ACCESS_TOKEN_SECRET,
-                { expiresIn: '10s' }
-            );
+            const roles = Object.values(foundUser.roles);
+            const accessToken = await studentService.signAccessToken(decoded.username, roles)
             res.json({accessToken })
         }
     );

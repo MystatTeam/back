@@ -20,6 +20,7 @@ export interface IStudent {
         rewards: number;
     };
     refreshToken: string
+    roles: Object
 }
 
 // data type which will be returned after interaction with db and must be returned to client
@@ -82,6 +83,10 @@ const StudentSchema: Schema = new Schema<IStudent>(
         },
         refreshToken: {
             type: String
+        },
+        roles: {
+            Editor: Number,
+            Admin: Number
         }
     },
     {

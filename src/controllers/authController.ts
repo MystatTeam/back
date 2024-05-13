@@ -1,3 +1,4 @@
+import studentService from '../services/studentService';
 import { StudentModel } from '../models/StudentModel';
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
@@ -12,23 +13,10 @@ export const handleLogin = async (req: Request, res: Response) => {
     // evaluate password 
     const match = await bcrypt.compare(pwd, foundUser.passwordHash);
     if (match) {
-        // const roles = Object.values(foundUser.roles).filter(Boolean);
+        const roles = Object.values(foundUser.roles).filter(Boolean);
         // create JWTs
-        const accessToken = jwt.sign(
-            {
-                "UserInfo": {
-                    "username": foundUser.login,
-                    // "roles": roles
-                }
-            },
-            process.env.ACCESS_TOKEN_SECRET,
-            { expiresIn: '1m' }
-        );
-        const refreshToken = jwt.sign(
-            { "username": foundUser.login },
-            process.env.REFRESH_TOKEN_SECRET,
-            { expiresIn: '1d' }
-        );
+        const accessToken = await studentService.signAccessToken(foundUser.login, roles)
+        const refreshToken = await studentService.signRefreshToken(foundUser.login)
         // Saving refreshToken with current user
         foundUser.refreshToken = refreshToken;
         const result = await foundUser.save();
@@ -36,9 +24,8 @@ export const handleLogin = async (req: Request, res: Response) => {
         // Creates Secure Cookie with refresh token
         res.cookie('jwt', refreshToken, { httpOnly: true, secure: true, sameSite: 'none', maxAge: 24 * 60 * 60 * 1000 });
 
-        res.status(201).json({ 'refreshToken': `${refreshToken}` });
         // Send authorization roles and access token to user
-        // res.json({ roles, accessToken });
+        res.json({ accessToken });
 
     } else {
         res.sendStatus(401);

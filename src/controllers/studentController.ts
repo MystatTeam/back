@@ -7,20 +7,25 @@ export const post = async (req: Request, res: Response) => {
         const { password, ...userData } = req.body;
         const file = req.file;
 
-        const createdStudent: IStudentModel = await studentService.createStudent(password, {
-            userPhoto: {
-                data: file?.buffer,
-                contentType: file?.mimetype
-            },
-            ...userData
-        });
+        const duplicate = await studentService.checkIfUserExists(userData.login)
+        if (duplicate) return res.sendStatus(409); //Conflict 
+        else {
+            const createdStudent: IStudentModel = await studentService.createStudent(password, {
+                userPhoto: {
+                    data: file?.buffer,
+                    contentType: file?.mimetype
+                },
+                ...userData
+            });
+            
+            const {passwordHash, ...studentData} = createdStudent._doc;
+            
+            res.status(200).json({
+                studentData,
+                password
+            });
+        }
         
-        const {passwordHash, ...studentData} = createdStudent._doc;
-        
-        res.status(200).json({
-            studentData,
-            password
-        });
         
     } catch (error) {
         console.log(error);
