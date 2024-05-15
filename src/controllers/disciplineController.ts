@@ -1,20 +1,20 @@
 import { Request, Response } from "express";
-import groupService from "../services/groupService";
-import { IGroupModel } from "../models/GroupModel";
+import DisciplineService from "../services/disciplineService";
+import { IDisciplineModel } from "../models/DisciplineModel";
 
 export const post = async (req: Request, res: Response) => {
     try {
-        const { ...groupData } = req.body;
+        const { ...disciplineData } = req.body;
 
-        const createdGroup: IGroupModel = await groupService.createGroup({
+        const createdDiscipline: IDisciplineModel = await DisciplineService.createDiscipline({
                 
-            ...groupData
+            ...disciplineData
         });
         
-        const { ...createdGroupData} = createdGroup._doc;
+        const { ...createdDisciplineData} = createdDiscipline._doc;
         
         res.status(200).json({
-            createdGroupData,
+            createdDisciplineData,
         });
         
         
@@ -27,11 +27,11 @@ export const post = async (req: Request, res: Response) => {
 
 export const getAll = async (req: Request, res: Response) => {
     try {
-        const groups: IGroupModel[] | null = await groupService.findAllGroups();
+        const Disciplines: IDisciplineModel[] | null = await DisciplineService.findAllDisciplines();
         
-        const result = groups?.map(group => {
-            const {...groupData} = group._doc;
-            return groupData;
+        const result = Disciplines?.map(Discipline => {
+            const {...DisciplineData} = Discipline._doc;
+            return DisciplineData;
         });
 
         res.status(200).json(result);
@@ -44,9 +44,9 @@ export const getAll = async (req: Request, res: Response) => {
 export const getById = async (req: Request, res: Response) => {
     try {
         const { id } = req.params;
-        const result: IGroupModel | null = await groupService.findGroupById(id);
+        const result: IDisciplineModel | null = await DisciplineService.findDisciplineById(id);
         if (!result)
-            return res.status(404).json({message: "Group not found"});
+            return res.status(404).json({message: "Discipline not found"});
         res.status(200).json(
             result
         );
@@ -61,14 +61,14 @@ export const patch = async (req: Request, res: Response) => {
         const { id } = req.params;
         const {...newData} = req.body;
 
-        const result: IGroupModel | null = await groupService.updateGroup(id, newData);
+        const result: IDisciplineModel | null = await DisciplineService.updateDiscipline(id, newData);
 
         if (!result)
-            return res.status(404).json({message: "Group not found"});
+            return res.status(404).json({message: "Discipline not found"});
         else {
-            const { ...groupData} = result._doc;
+            const { ...DisciplineData} = result._doc;
             res.status(200).json({
-                groupData,
+                DisciplineData,
             });
         }
     } catch (error) {
@@ -81,10 +81,10 @@ export const remove = async (req: Request, res: Response) => {
     try {
         const { id } = req.params;
 
-        const result: IGroupModel | null = await groupService.removeGroup(id);
+        const result: IDisciplineModel | null = await DisciplineService.removeDiscipline(id);
 
         if (!result)
-            return res.status(404).json({message: "Group not found"});
+            return res.status(404).json({message: "Discipline not found"});
         res.status(200).json(
             result
         );

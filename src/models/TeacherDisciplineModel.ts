@@ -28,5 +28,6 @@ const TeacherDisciplineSchema: Schema = new Schema<ITeacherDiscipline>(
     }
 );
 
+TeacherDisciplineSchema.index({teacherID: 1, disciplineID: 1}, {unique: true});
 // model for interaction with db (operations: create, findById, find, etc.)
 export const TeacherDisciplineModel = model<ITeacherDisciplineModel>('TeacherDiscipline', TeacherDisciplineSchema);

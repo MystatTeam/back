@@ -1,4 +1,5 @@
 import { IStudent, IStudentModel, StudentModel } from "../models/StudentModel";
+import { StudentGroupModel } from "../models/StudentGroupModel";
 import bcrypt from 'bcrypt';
 const jwt = require('jsonwebtoken');
 
@@ -20,6 +21,7 @@ class StudentService {
         });
     }
     async removeStudent(id: string): Promise<IStudentModel | null> {
+        await StudentGroupModel.deleteMany({studentID: id})
         return await StudentModel.findByIdAndDelete(id);
     }
     async checkIfUserExists(login: string): Promise<IStudentModel | null> {
@@ -28,14 +30,9 @@ class StudentService {
     async generateHash(pwd: string): Promise<string> {
         return await bcrypt.hash(pwd, 10);
     }
-    async signAccessToken(login: string, roles: Object): Promise<string> {
+    async signAccessToken(login: string): Promise<string> {
         return jwt.sign(
-            {
-                "UserInfo": {
-                    "login": login,
-                    "roles": roles
-                } 
-            },
+            { "username": login },
             process.env.ACCESS_TOKEN_SECRET,
             { expiresIn: '1m' }
         );

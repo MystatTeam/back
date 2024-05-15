@@ -2,7 +2,7 @@ import { model, Document, Schema } from 'mongoose';
 
 // data type which must be provided from client for crud operation
 export interface IGroupDiscipline {
-    teacherID: Schema.Types.ObjectId;
+    groupID: Schema.Types.ObjectId;
     disciplineID: Schema.Types.ObjectId;
 }
 
@@ -14,7 +14,7 @@ export interface IGroupDisciplineModel extends IGroupDiscipline, Document {
 // Schema for mongoDB
 const GroupDisciplineSchema: Schema = new Schema<IGroupDiscipline>(
     {
-        teacherID: {
+        groupID: {
             type: Schema.Types.ObjectId,
             required: true,
         },
@@ -28,5 +28,6 @@ const GroupDisciplineSchema: Schema = new Schema<IGroupDiscipline>(
     }
 );
 
+GroupDisciplineSchema.index({groupID: 1, disciplineID: 1}, {unique: true});
 // model for interaction with db (operations: create, findById, find, etc.)
 export const GroupDisciplineModel = model<IGroupDisciplineModel>('GroupDiscipline', GroupDisciplineSchema);

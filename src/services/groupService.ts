@@ -1,8 +1,10 @@
 import { IGroup, IGroupModel, GroupModel } from "../models/GroupModel";
+import { StudentGroupModel } from "../models/StudentGroupModel";
+import { GroupDisciplineModel } from "../models/GroupDisciplineModel";
 import bcrypt from 'bcrypt';
 const jwt = require('jsonwebtoken');
 
-class StudentService {
+class GroupService {
     async createGroup(studentData: Partial<IGroup>): Promise<IGroupModel> {        
         return await GroupModel.create({ ...studentData});
     }
@@ -18,8 +20,11 @@ class StudentService {
         });
     }
     async removeGroup(id: string): Promise<IGroupModel | null> {   // тут должен быть каскад еще 2 таблиц
+        await StudentGroupModel.deleteMany({groupID: id})
+        await GroupDisciplineModel.deleteMany({groupID: id})
+
         return await GroupModel.findByIdAndDelete(id);
     }
 }
 
-export default new StudentService();
+export default new GroupService();

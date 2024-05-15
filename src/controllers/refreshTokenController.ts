@@ -17,8 +17,8 @@ export const handleRefreshToken = async (req: Request, res: Response) => {
         process.env.REFRESH_TOKEN_SECRET,
         async (err: any, decoded: { username: string; }) => {
             if (err || foundUser.login !== decoded.username) return res.sendStatus(403);
-            const roles = Object.values(foundUser.roles);
-            const accessToken = await studentService.signAccessToken(decoded.username, roles)
+            // const roles = Object.values(foundUser.roles);
+            const accessToken = await studentService.signAccessToken(decoded.username)
             res.json({accessToken })
         }
     );

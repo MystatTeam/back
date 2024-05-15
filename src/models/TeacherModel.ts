@@ -58,9 +58,18 @@ const TeacherSchema: Schema = new Schema<ITeacher>(
             type: String
         },
         roles: {
-            Teacher: Boolean,
-            Editor: Boolean,
-            Admin: Boolean
+            Teacher: {
+                type: Boolean,
+                default: true
+            },
+            Editor: {
+                type: Boolean,
+                default: false
+            },
+            Admin: {
+                type: Boolean,
+                default: false
+            },
         }
     },
     {

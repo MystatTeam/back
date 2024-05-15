@@ -28,5 +28,6 @@ const StudentGroupSchema: Schema = new Schema<IStudentGroup>(
     }
 );
 
+StudentGroupSchema.index({groupID: 1, studentID: 1}, {unique: true});
 // model for interaction with db (operations: create, findById, find, etc.)
 export const StudentGroupModel = model<IStudentGroupModel>('StudentGroup', StudentGroupSchema);

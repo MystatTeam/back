@@ -13,9 +13,9 @@ export const handleLogin = async (req: Request, res: Response) => {
     // evaluate password 
     const match = await bcrypt.compare(pwd, foundUser.passwordHash);
     if (match) {
-        const roles = Object.values(foundUser.roles).filter(Boolean);
+        // const roles = Object.values(foundUser.roles).filter(Boolean);
         // create JWTs
-        const accessToken = await studentService.signAccessToken(foundUser.login, roles)
+        const accessToken = await studentService.signAccessToken(foundUser.login)
         const refreshToken = await studentService.signRefreshToken(foundUser.login)
         // Saving refreshToken with current user
         foundUser.refreshToken = refreshToken;
