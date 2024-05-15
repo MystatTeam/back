@@ -9,21 +9,20 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
 
         const duplicate = await studentService.checkIfUserExists(userData.login)
         if (duplicate) return res.sendStatus(409); //Conflict 
-        else {
-            const createdStudent: IStudentModel = await studentService.createStudent(password, {
-                userPhoto: {
-                    data: file?.buffer,
-                    contentType: file?.mimetype
-                },
-                ...userData
-            });
-            
-            const {passwordHash, ...studentData} = createdStudent._doc;
-            
-            res.status(200).json({
-                studentData,
-            });
-        }
+        
+        const createdStudent: IStudentModel = await studentService.createStudent(password, {
+            userPhoto: {
+                data: file?.buffer,
+                contentType: file?.mimetype
+            },
+            ...userData
+        });
+        
+        const {passwordHash, ...studentData} = createdStudent._doc;
+        
+        res.status(200).json({
+            studentData,
+        });
         
         
     } catch (error) {
