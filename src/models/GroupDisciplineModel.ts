@@ -17,10 +17,12 @@ const GroupDisciplineSchema: Schema = new Schema<IGroupDiscipline>(
         groupID: {
             type: Schema.Types.ObjectId,
             required: true,
+            ref: 'Group',
         },
         disciplineID: {
             type: Schema.Types.ObjectId,
             required: true,
+            ref: 'Discipline'
         },
     },
     {

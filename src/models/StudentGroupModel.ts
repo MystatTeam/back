@@ -17,10 +17,12 @@ const StudentGroupSchema: Schema = new Schema<IStudentGroup>(
         groupID: {
             type: Schema.Types.ObjectId,
             required: true,
+            ref: 'Group',
         },
         studentID: {
             type: Schema.Types.ObjectId,
             required: true,
+            ref: 'Student'
         },
     },
     {

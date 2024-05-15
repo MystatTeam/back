@@ -17,10 +17,12 @@ const TeacherDisciplineSchema: Schema = new Schema<ITeacherDiscipline>(
         teacherID: {
             type: Schema.Types.ObjectId,
             required: true,
+            ref: 'Teacher'
         },
         disciplineID: {
             type: Schema.Types.ObjectId,
             required: true,
+            ref: 'Discipline'
         },
     },
     {
