@@ -13,6 +13,8 @@ import teacherDisciplineRouter from './routers/teacherDisciplineRouter.js';
 import groupDisciplineRouter from './routers/groupDisciplineRouter.js';
 
 
+import feedbackRouter from './routers/feedbackRouter.js';
+
 import errorHandler from './middleware/errorHandler.js';
 import './db/index.js';
 import cookieParser from 'cookie-parser';
@@ -28,6 +30,7 @@ app.use(cookieParser())
 
 app.use(authRouter);
 app.use(groupRouter);
+app.use(feedbackRouter);
 app.use(studentRouter);
 app.use(studentGroupRouter)
 app.use(teacherRouter)
