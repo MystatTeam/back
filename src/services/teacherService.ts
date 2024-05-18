@@ -3,11 +3,11 @@ import { TeacherDisciplineModel } from "../models/TeacherDisciplineModel";
 import bcrypt from 'bcrypt';
 const jwt = require('jsonwebtoken');
 
-class StudentService {
-    async createTeacher(password: string, studentData: Partial<ITeacher>): Promise<ITeacherModel> {        
+class TeacherService {
+    async createTeacher(password: string, teacherData: Partial<ITeacher>): Promise<ITeacherModel> {        
         const passwordHash = await this.generateHash(password);
         
-        return await TeacherModel.create({passwordHash, ...studentData});
+        return await TeacherModel.create({passwordHash, ...teacherData});
     }
     async findAllTeachers(): Promise<ITeacherModel[] | null> {
         return await TeacherModel.find();
@@ -33,4 +33,4 @@ class StudentService {
 
 }
 
-export default new StudentService();
+export default new TeacherService();
