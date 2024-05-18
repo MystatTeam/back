@@ -13,10 +13,10 @@ class GroupDisciplineService {
         }
     }
     async findAllGroupDisciplines(): Promise<IGroupDisciplineModel[] | null> {
-        return await GroupDisciplineModel.find();
+        return await GroupDisciplineModel.find().populate(['groupID', 'disciplineID']);
     }
     async findGroupDisciplineById(id: string): Promise<IGroupDisciplineModel | null> {
-        return await GroupDisciplineModel.findById(id);
+        return await GroupDisciplineModel.findById(id).populate(['groupID', 'disciplineID']);
     }
     async updateGroupDiscipline(id: string, userData: Partial<IGroupDiscipline>): Promise<IGroupDisciplineModel | null> {
         return await GroupDisciplineModel.findByIdAndUpdate({_id: id}, userData, {
