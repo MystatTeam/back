@@ -12,6 +12,7 @@ import disciplineRouter from './routers/disciplineRouter.js';
 import teacherDisciplineRouter from './routers/teacherDisciplineRouter.js';
 import groupDisciplineRouter from './routers/groupDisciplineRouter.js';
 import classRouter from './routers/classRouter.js';
+import classInfoRouter from './routers/classInfoRouter.js';
 
 
 import feedbackRouter from './routers/feedbackRouter.js';
@@ -39,7 +40,7 @@ app.use(disciplineRouter);
 app.use(teacherDisciplineRouter);
 app.use(groupDisciplineRouter);
 app.use(classRouter);
-
+app.use(classInfoRouter);
 
 app.use(errorHandler);
 app.listen(process.env.PORT || PORT, () => {
