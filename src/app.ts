@@ -11,6 +11,7 @@ import teacherRouter from './routers/teacherRouter.js';
 import disciplineRouter from './routers/disciplineRouter.js';
 import teacherDisciplineRouter from './routers/teacherDisciplineRouter.js';
 import groupDisciplineRouter from './routers/groupDisciplineRouter.js';
+import classRouter from './routers/classRouter.js';
 
 
 import feedbackRouter from './routers/feedbackRouter.js';
@@ -26,17 +27,18 @@ const app: Express = express();
 app.use(cors());
 app.use(express.json());
 
-app.use(cookieParser())
+app.use(cookieParser());
 
 app.use(authRouter);
 app.use(groupRouter);
 app.use(feedbackRouter);
 app.use(studentRouter);
-app.use(studentGroupRouter)
-app.use(teacherRouter)
-app.use(disciplineRouter)
-app.use(teacherDisciplineRouter)
-app.use(groupDisciplineRouter)
+app.use(studentGroupRouter);
+app.use(teacherRouter);
+app.use(disciplineRouter);
+app.use(teacherDisciplineRouter);
+app.use(groupDisciplineRouter);
+app.use(classRouter);
 
 
 app.use(errorHandler);
