@@ -13,6 +13,7 @@ import teacherDisciplineRouter from './routers/teacherDisciplineRouter.js';
 import groupDisciplineRouter from './routers/groupDisciplineRouter.js';
 import classRouter from './routers/classRouter.js';
 import classInfoRouter from './routers/classInfoRouter.js';
+import homeworkRouter from './routers/homeworkRouter.js';
 
 
 import feedbackRouter from './routers/feedbackRouter.js';
@@ -41,6 +42,7 @@ app.use(teacherDisciplineRouter);
 app.use(groupDisciplineRouter);
 app.use(classRouter);
 app.use(classInfoRouter);
+app.use(homeworkRouter);
 
 app.use(errorHandler);
 app.listen(process.env.PORT || PORT, () => {
