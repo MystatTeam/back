@@ -9,21 +9,20 @@ export const post = async (req: Request, res: Response) => {
 
         const duplicate = await TeacherService.checkIfUserExists(userData.login)
         if (duplicate) return res.sendStatus(409); //Conflict 
-        else {
-            const createdTeacher: ITeacherModel = await TeacherService.createTeacher(password, {
-                userPhoto: {
-                    data: file?.buffer,
-                    contentType: file?.mimetype
-                },
-                ...userData
-            });
-            
-            const {passwordHash, ...TeacherData} = createdTeacher._doc;
-            
-            res.status(200).json({
-                TeacherData,
-            });
-        }
+
+        const createdTeacher: ITeacherModel = await TeacherService.createTeacher(password, {
+            userPhoto: {
+                data: file?.buffer,
+                contentType: file?.mimetype
+            },
+            ...userData
+        });
+        
+        const {passwordHash, ...teacherData} = createdTeacher._doc;
+        
+        res.status(200).json({
+            teacherData,
+        });
         
     } catch (error) {
         res.status(500).json({
@@ -34,26 +33,13 @@ export const post = async (req: Request, res: Response) => {
 
 export const getAll = async (req: Request, res: Response) => {
     try {
-        const Teachers: ITeacherModel[] | null = await TeacherService.findAllTeachers();
+        const teachers: ITeacherModel[] | null = await TeacherService.findAllTeachers();
         
-        const result = Teachers?.map(Teacher => {
-            const {...TeacherData} = Teacher._doc;
-            return TeacherData;
+        const result = teachers?.map(teacher => {
+            const {passwordHash, ...teacherData} = teacher._doc;
+            return teacherData;
         });
 
-        res.status(200).json(result);
-    } catch (error) {
-        res.status(500).json({
-            message: "Internal error",
-        });
-    }
-}
-export const getById = async (req: Request, res: Response) => {
-    try {
-        const { id } = req.params;
-        const result: ITeacherModel | null = await TeacherService.findTeacherById(id);
-        if (!result)
-            return res.status(404).json({message: "Teacher not found"});
         res.status(200).json(
             result
         );
@@ -63,6 +49,28 @@ export const getById = async (req: Request, res: Response) => {
         });
     }
 }
+
+export const getById = async (req: Request, res: Response) => {
+    try {
+        const { id } = req.params;
+
+        const result: ITeacherModel | null = await TeacherService.findTeacherById(id);
+
+        if (!result)
+            return res.status(404).json({message: "Teacher not found"});
+
+        const { passwordHash, ...teacherData } = result._doc;
+
+        res.status(200).json(
+            teacherData
+        );
+    } catch (error) {
+        res.status(500).json({
+            message: "Internal error",
+        });
+    }
+}
+
 export const patch = async (req: Request, res: Response) => {
     try {
         const { id } = req.params;
@@ -72,18 +80,20 @@ export const patch = async (req: Request, res: Response) => {
 
         if (!result)
             return res.status(404).json({message: "Teacher not found"});
-        else {
-            const { ...TeacherData} = result._doc;
-            res.status(200).json({
-                TeacherData,
-            });
-        }
+
+        const {passwordHash, ...teacherData} = result._doc;
+
+        res.status(200).json(
+            teacherData,
+        );
+
     } catch (error) {
         res.status(500).json({
             message: "Internal error",
         });
     }
 }
+
 export const remove = async (req: Request, res: Response) => {
     try {
         const { id } = req.params;
@@ -92,6 +102,7 @@ export const remove = async (req: Request, res: Response) => {
 
         if (!result)
             return res.status(404).json({message: "Teacher not found"});
+
         res.status(200).json(
             result
         );

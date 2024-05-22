@@ -4,11 +4,11 @@ import * as groupDisciplineController from '../controllers/groupDisciplineContro
 
 const router: Router = express.Router();
 
-router.get('/groupDiscipline', groupDisciplineController.getAll);
-router.get('/groupDiscipline/:id', groupDisciplineController.getById);
-router.post('/groupDiscipline', groupDisciplineController.post);
-router.patch('/groupDiscipline/:id', groupDisciplineController.patch);
-router.delete('/groupDiscipline/:id', groupDisciplineController.remove);
+router.get('/group-disciplines', groupDisciplineController.getAll);
+router.get('/group-disciplines/:id', groupDisciplineController.getById);
+router.post('/group-disciplines', groupDisciplineController.post);
+router.patch('/group-disciplines/:id', groupDisciplineController.patch);
+router.delete('/group-disciplines/:id', groupDisciplineController.remove);
 
 
 export default router;

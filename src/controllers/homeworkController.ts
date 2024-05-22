@@ -16,8 +16,7 @@ export const post = async (req: Request, res: Response) => {
         });
         
         res.status(200).json(createdHomework);
-        
-        
+
     } catch (error) {
         res.status(500).json({
             message: "Internal error",
@@ -39,6 +38,7 @@ export const getAll = async (req: Request, res: Response) => {
 export const getById = async (req: Request, res: Response) => {
     try {
         const { id } = req.params;
+
         const result: IHomeworkModel | null = await HomeworkService.findHomeworkById(id);
 
         if (!result)
@@ -65,6 +65,7 @@ export const patch = async (req: Request, res: Response) => {
                 contentType: file.mimetype
             }
         }
+        
         const result: IHomeworkModel | null = await HomeworkService.updateHomework(id, newData);
 
         if (!result)

@@ -6,15 +6,13 @@ export const post = async (req: Request, res: Response) => {
     try {
         const { ...classInfoData } = req.body;
 
-        const createdClass: IClassInfoModel = await ClassInfoService.createClass({
+        const createdClassInfo: IClassInfoModel = await ClassInfoService.createClass({
                 
             ...classInfoData
         });
         
-        const { ...createdClassData} = createdClass._doc;
-        
         res.status(200).json({
-            createdClassData,
+            createdClassInfo,
         });
         
         
@@ -28,19 +26,15 @@ export const post = async (req: Request, res: Response) => {
 export const getAll = async (req: Request, res: Response) => {
     try {
         const classesInfos: IClassInfoModel[] | null = await ClassInfoService.findAllClasses();
-        
-        const result = classesInfos?.map(item => {
-            const {...classInfoData} = item._doc;
-            return classInfoData;
-        });
 
-        res.status(200).json(result);
+        res.status(200).json(classesInfos);
     } catch (error) {
         res.status(500).json({
             message: "Internal error",
         });
     }
 }
+
 export const getById = async (req: Request, res: Response) => {
     try {
         const { id } = req.params;

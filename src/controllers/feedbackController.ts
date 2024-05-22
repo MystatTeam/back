@@ -33,6 +33,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
         next(error);
     }
 }
+
 export const getAll = async (req: Request, res: Response) => {
     try {
         const feedbacks: IFeedbackModel[] | null = await FeedbackService.findAllFeedbacks();
@@ -46,10 +47,10 @@ export const getAll = async (req: Request, res: Response) => {
         });
     }
 }
+
 export const getAllByStudentId = async (req: Request, res: Response) => {
     try {
         const { studentId } = req.params;
-
 
         const feedbacks: IFeedbackModel[] | null = await FeedbackService.findAllFeedbacksByStudentId(studentId);
 
@@ -62,9 +63,9 @@ export const getAllByStudentId = async (req: Request, res: Response) => {
         });
     }
 }
+
 export const getById = async (req: Request, res: Response) => {
     try {
-
         const { id } = req.params;
         const feedback: IFeedbackModel | null = await FeedbackService.findFeedbackById(id);
 
@@ -77,6 +78,7 @@ export const getById = async (req: Request, res: Response) => {
         });
     }
 }
+
 export const patch = async (req: Request, res: Response) => {
     try {
         const { id } = req.params;
@@ -93,6 +95,7 @@ export const patch = async (req: Request, res: Response) => {
         });
     }
 }
+
 export const remove = async (req: Request, res: Response) => {
     try {
         const { id } = req.params;

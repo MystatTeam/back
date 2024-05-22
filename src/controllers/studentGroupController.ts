@@ -7,22 +7,19 @@ export const post = async (req: Request, res: Response) => {
         const { ...studentGroupData } = req.body;
 
         const createdStudentGroup: IStudentGroupModel | any = await StudentGroupService.createStudentGroup({
-                
             ...studentGroupData
         });
         
         if (createdStudentGroup.code === 11000){
-            res.status(409).json({
+            return res.status(409).json(
                 createdStudentGroup
-            })
+            )
         }
-        else {
-            const { ...StudentGroupData} = createdStudentGroup._doc;
         
-            res.status(200).json({
-                StudentGroupData,
-            });
-        }
+        res.status(200).json(
+            createdStudentGroup,
+        );
+        
     } catch (error) {
         res.status(500).json({
             message: "Internal error",
@@ -33,25 +30,26 @@ export const post = async (req: Request, res: Response) => {
 export const getAll = async (req: Request, res: Response) => {
     try {
         const studentGroups: IStudentGroupModel[] | null = await StudentGroupService.findAllStudentGroups();
-        
-        const result = studentGroups?.map(studentGroup => {
-            const {...studentGroupData} = studentGroup._doc;
-            return studentGroupData;
-        });
 
-        res.status(200).json(result);
+        res.status(200).json(
+            studentGroups
+        );
     } catch (error) {
         res.status(500).json({
             message: "Internal error",
         });
     }
 }
+
 export const getById = async (req: Request, res: Response) => {
     try {
         const { id } = req.params;
+
         const result: IStudentGroupModel | null = await StudentGroupService.findStudentGroupById(id);
+
         if (!result)
             return res.status(404).json({message: "StudentGroup not found"});
+
         res.status(200).json(
             result
         );
@@ -61,6 +59,7 @@ export const getById = async (req: Request, res: Response) => {
         });
     }
 }
+
 export const patch = async (req: Request, res: Response) => {
     try {
         const { id } = req.params;
@@ -70,18 +69,17 @@ export const patch = async (req: Request, res: Response) => {
 
         if (!result)
             return res.status(404).json({message: "StudentGroup not found"});
-        else {
-            const { ...studentGroupData} = result._doc;
-            res.status(200).json({
-                studentGroupData,
-            });
-        }
+
+        res.status(200).json(
+            result,
+        );
     } catch (error) {
         res.status(500).json({
             message: "Internal error",
         });
     }
 }
+
 export const remove = async (req: Request, res: Response) => {
     try {
         const { id } = req.params;
@@ -90,6 +88,7 @@ export const remove = async (req: Request, res: Response) => {
 
         if (!result)
             return res.status(404).json({message: "StudentGroup not found"});
+
         res.status(200).json(
             result
         );

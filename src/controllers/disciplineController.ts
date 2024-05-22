@@ -11,12 +11,10 @@ export const post = async (req: Request, res: Response) => {
             ...disciplineData
         });
         
-        const { ...createdDisciplineData} = createdDiscipline._doc;
         
-        res.status(200).json({
-            createdDisciplineData,
-        });
-        
+        res.status(200).json(
+            createdDiscipline,
+        );
         
     } catch (error) {
         res.status(500).json({
@@ -27,14 +25,9 @@ export const post = async (req: Request, res: Response) => {
 
 export const getAll = async (req: Request, res: Response) => {
     try {
-        const Disciplines: IDisciplineModel[] | null = await DisciplineService.findAllDisciplines();
-        
-        const result = Disciplines?.map(Discipline => {
-            const {...DisciplineData} = Discipline._doc;
-            return DisciplineData;
-        });
+        const disciplines: IDisciplineModel[] | null = await DisciplineService.findAllDisciplines();
 
-        res.status(200).json(result);
+        res.status(200).json(disciplines);
     } catch (error) {
         res.status(500).json({
             message: "Internal error",
@@ -65,12 +58,10 @@ export const patch = async (req: Request, res: Response) => {
 
         if (!result)
             return res.status(404).json({message: "Discipline not found"});
-        else {
-            const { ...DisciplineData} = result._doc;
-            res.status(200).json({
-                DisciplineData,
-            });
-        }
+
+        res.status(200).json(
+            result,
+        );
     } catch (error) {
         res.status(500).json({
             message: "Internal error",
@@ -85,6 +76,7 @@ export const remove = async (req: Request, res: Response) => {
 
         if (!result)
             return res.status(404).json({message: "Discipline not found"});
+        
         res.status(200).json(
             result
         );

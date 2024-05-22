@@ -4,25 +4,22 @@ import { ITeacherDisciplineModel } from "../models/TeacherDisciplineModel";
 
 export const post = async (req: Request, res: Response) => {
     try {
-        const { ...TeacherDisciplineData } = req.body;
+        const { ...teacherDisciplineData } = req.body;
 
         const createdTeacherDiscipline: ITeacherDisciplineModel | any = await TeacherDisciplineService.createTeacherDiscipline({
                 
-            ...TeacherDisciplineData
+            ...teacherDisciplineData
         });
         
         if (createdTeacherDiscipline.code === 11000){
-            res.status(409).json({
+            return res.status(409).json(
                 createdTeacherDiscipline
-            })
+            );
         }
-        else {
-            const { ...TeacherDisciplineData} = createdTeacherDiscipline._doc;
-        
-            res.status(200).json({
-                TeacherDisciplineData,
-            });
-        }
+    
+        res.status(200).json(
+            createdTeacherDiscipline,
+        );
     } catch (error) {
         res.status(500).json({
             message: "Internal error",
@@ -32,26 +29,27 @@ export const post = async (req: Request, res: Response) => {
 
 export const getAll = async (req: Request, res: Response) => {
     try {
-        const TeacherDisciplines: ITeacherDisciplineModel[] | null = await TeacherDisciplineService.findAllTeacherDisciplines();
+        const teacherDisciplines: ITeacherDisciplineModel[] | null = await TeacherDisciplineService.findAllTeacherDisciplines();
         
-        const result = TeacherDisciplines?.map(TeacherDiscipline => {
-            const {...TeacherDisciplineData} = TeacherDiscipline._doc;
-            return TeacherDisciplineData;
-        });
-
-        res.status(200).json(result);
+        res.status(200).json(
+            teacherDisciplines
+        );
     } catch (error) {
         res.status(500).json({
             message: "Internal error",
         });
     }
 }
+
 export const getById = async (req: Request, res: Response) => {
     try {
         const { id } = req.params;
+
         const result: ITeacherDisciplineModel | null = await TeacherDisciplineService.findTeacherDisciplineById(id);
+        
         if (!result)
             return res.status(404).json({message: "TeacherDiscipline not found"});
+
         res.status(200).json(
             result
         );
@@ -61,6 +59,7 @@ export const getById = async (req: Request, res: Response) => {
         });
     }
 }
+
 export const patch = async (req: Request, res: Response) => {
     try {
         const { id } = req.params;
@@ -70,18 +69,17 @@ export const patch = async (req: Request, res: Response) => {
 
         if (!result)
             return res.status(404).json({message: "TeacherDiscipline not found"});
-        else {
-            const { ...TeacherDisciplineData} = result._doc;
-            res.status(200).json({
-                TeacherDisciplineData,
-            });
-        }
+
+        res.status(200).json(
+            result,
+        );
     } catch (error) {
         res.status(500).json({
             message: "Internal error",
         });
     }
 }
+
 export const remove = async (req: Request, res: Response) => {
     try {
         const { id } = req.params;
@@ -90,6 +88,7 @@ export const remove = async (req: Request, res: Response) => {
 
         if (!result)
             return res.status(404).json({message: "TeacherDiscipline not found"});
+
         res.status(200).json(
             result
         );

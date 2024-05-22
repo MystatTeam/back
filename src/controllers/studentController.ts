@@ -9,31 +9,28 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
 
         const duplicate = await studentService.checkIfUserExists(userData.login)
         if (duplicate) return res.sendStatus(409); //Conflict 
-        else {
-            const createdStudent: IStudentModel = await studentService.createStudent(password, {
-                userPhoto: {
-                    data: file?.buffer,
-                    contentType: file?.mimetype
-                },
-                ...userData
-            });
-            
-            const {passwordHash, ...studentData} = createdStudent._doc;
-            
-            res.status(200).json({
-                studentData,
-            });
-        }
+
+        const createdStudent: IStudentModel = await studentService.createStudent(password, {
+            userPhoto: {
+                data: file?.buffer,
+                contentType: file?.mimetype
+            },
+            ...userData
+        });
+        
+        const {passwordHash, ...studentData} = createdStudent._doc;
+        
+        res.status(200).json(
+            studentData,
+        );
         
         
     } catch (error) {
         console.log(error);
-        next(error)
-        // res.status(500).json({
-        //     message: "Internal error",
-        // });
+        next(error);
     }
 }
+
 export const getAll = async (req: Request, res: Response) => {
     try {
         const students: IStudentModel[] | null = await studentService.findAllStudents();
@@ -50,14 +47,19 @@ export const getAll = async (req: Request, res: Response) => {
         });
     }
 }
+
 export const getById = async (req: Request, res: Response) => {
     try {
         const { id } = req.params;
         const result: IStudentModel | null = await studentService.findStudentById(id);
+
         if (!result)
             return res.status(404).json({message: "Student not found"});
+
+        const {passwordHash, ...studentData} = result._doc;
+
         res.status(200).json(
-            result
+            studentData
         );
     } catch (error) {
         res.status(500).json({
@@ -65,18 +67,17 @@ export const getById = async (req: Request, res: Response) => {
         });
     }
 }
+
 export const patch = async (req: Request, res: Response) => {
     try {
         const { id } = req.params;
         const {password, ...newData} = req.body;
-        console.log(newData);
-        if (password)
-            // newData.passwordHash = authService.hashPassword(password);
-            newData.passwordHash = 'fk0wfj'+password;
-        const result: IStudentModel | null = await studentService.updateStudent(id, newData);
+        
+        const result: IStudentModel | null = await studentService.updateStudent(id, password, newData);
 
         if (!result)
             return res.status(404).json({message: "Student not found"});
+
         res.status(200).json(
             result
         );
@@ -86,6 +87,7 @@ export const patch = async (req: Request, res: Response) => {
         });
     }
 }
+
 export const remove = async (req: Request, res: Response) => {
     try {
         const { id } = req.params;
@@ -94,6 +96,7 @@ export const remove = async (req: Request, res: Response) => {
 
         if (!result)
             return res.status(404).json({message: "Student not found"});
+
         res.status(200).json(
             result
         );

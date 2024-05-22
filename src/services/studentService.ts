@@ -15,8 +15,13 @@ class StudentService {
     async findStudentById(id: string): Promise<IStudentModel | null> {
         return await StudentModel.findById(id);
     }
-    async updateStudent(id: string, userData: Partial<IStudent>): Promise<IStudentModel | null> {
-        return await StudentModel.findByIdAndUpdate({_id: id}, userData, {
+    async updateStudent(id: string, password: string | null, studentData: Partial<IStudent>): Promise<IStudentModel | null> {
+        if (password){
+            const passwordHash = await this.generateHash(password);
+            studentData.passwordHash = passwordHash;
+        }
+
+        return await StudentModel.findByIdAndUpdate({_id: id}, studentData, {
             new: true
         });
     }

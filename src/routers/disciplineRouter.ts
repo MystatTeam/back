@@ -4,11 +4,11 @@ import * as disciplineController from '../controllers/disciplineController';
 
 const router: Router = express.Router();
 
-router.get('/discipline', disciplineController.getAll);
-router.get('/discipline/:id', disciplineController.getById);
-router.post('/discipline', disciplineController.post);
-router.patch('/discipline/:id', disciplineController.patch);
-router.delete('/discipline/:id', disciplineController.remove);
+router.get('/disciplines', disciplineController.getAll);
+router.get('/disciplines/:id', disciplineController.getById);
+router.post('/disciplines', disciplineController.post);
+router.patch('/disciplines/:id', disciplineController.patch);
+router.delete('/disciplines/:id', disciplineController.remove);
 
 
 export default router;

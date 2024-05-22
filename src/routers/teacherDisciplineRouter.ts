@@ -4,11 +4,11 @@ import * as teacherDisciplineController from '../controllers/teacherDisciplineCo
 
 const router: Router = express.Router();
 
-router.get('/teacherDiscipline', teacherDisciplineController.getAll);
-router.get('/teacherDiscipline/:id', teacherDisciplineController.getById);
-router.post('/teacherDiscipline', teacherDisciplineController.post);
-router.patch('/teacherDiscipline/:id', teacherDisciplineController.patch);
-router.delete('/teacherDiscipline/:id', teacherDisciplineController.remove);
+router.get('/teacher-disciplines', teacherDisciplineController.getAll);
+router.get('/teacher-disciplines/:id', teacherDisciplineController.getById);
+router.post('/teacher-disciplines', teacherDisciplineController.post);
+router.patch('/teacher-disciplines/:id', teacherDisciplineController.patch);
+router.delete('/teacher-disciplines/:id', teacherDisciplineController.remove);
 
 
 export default router;
