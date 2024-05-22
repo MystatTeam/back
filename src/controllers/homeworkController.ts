@@ -57,7 +57,14 @@ export const patch = async (req: Request, res: Response) => {
     try {
         const { id } = req.params;
         const {...newData} = req.body;
+        const file = req.file;
 
+        if (file) {
+            newData.file = {
+                data: file.buffer,
+                contentType: file.mimetype
+            }
+        }
         const result: IHomeworkModel | null = await HomeworkService.updateHomework(id, newData);
 
         if (!result)

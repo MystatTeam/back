@@ -10,7 +10,7 @@ const upload = multer();
 router.get('/homeworks', HomeworkController.getAll);
 router.get('/homeworks/:id', HomeworkController.getById);
 router.post('/homeworks', upload.single('file'), HomeworkController.post);
-router.patch('/homeworks/:id', HomeworkController.patch);
+router.patch('/homeworks/:id', upload.single('file'), HomeworkController.patch);
 router.delete('/homeworks/:id', HomeworkController.remove);
 
 export default router;
