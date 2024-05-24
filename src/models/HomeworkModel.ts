@@ -6,10 +6,19 @@ export interface IHomework {
     publicationDate: Date;
     deadlineDate: Date;
     comment: String;
-    file: {
+    fileId: Schema.Types.ObjectId;
+    studentID: Schema.Types.ObjectId;
+    teacherID: Schema.Types.ObjectId;
+    disciplineID: Schema.Types.ObjectId;
+    needsToBeChecked: Boolean
+    studentHomework?: {
         data: Buffer,
         contentType: string
     }
+    studentHomeworkFileType?: string
+    grade?: Number
+    homeworkComment?: string
+    dateOfUpload?: Date
 }
 
 // data type which will be returned after interaction with db and must be returned to client
@@ -34,16 +43,36 @@ const HomeworkSchema: Schema = new Schema<IHomework>(
             required: true,
         },
         comment: String,
-        file: {
-            contentType: {
-                type: String,
-                required: true,
-            },
-            data: {
-                type: Buffer,
-                required: true,
-            },
-        }
+        fileId: {
+            type: Schema.Types.ObjectId,
+            required: true,
+            ref: 'fileId'
+        },
+        studentID: {
+            type: Schema.Types.ObjectId,
+            required: true
+        },
+        teacherID: {
+            type: Schema.Types.ObjectId,
+            required: true
+        },
+        disciplineID: {
+            type: Schema.Types.ObjectId,
+            required: true
+        },
+        needsToBeChecked: {
+            type: Boolean,
+            required: true,
+            default: false
+        },
+        studentHomework: {
+            data: Buffer,
+            contentType: String,
+        },
+        studentHomeworkFileType: String,
+        grade: Number,
+        homeworkComment: String,
+        dateOfUpload: Date
     },
     {
         timestamps: true,
