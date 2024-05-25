@@ -10,4 +10,7 @@ router.post('/class-infos', ClassInfoController.post);
 router.patch('/class-infos/:id', ClassInfoController.patch);
 router.delete('/class-infos/:id', ClassInfoController.remove);
 
+// mystat
+router.get('/mystat/class-infos/student/:id', ClassInfoController.getByStudentId);
+
 export default router;

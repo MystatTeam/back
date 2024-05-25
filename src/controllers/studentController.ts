@@ -68,6 +68,16 @@ export const getById = async (req: Request, res: Response) => {
     }
 }
 
+export const getStudentRewards = async (req: Request, res: Response) => {
+    try {
+        const { id } = req.params;
+
+        
+    } catch (error) {
+        
+    }
+}
+
 export const patch = async (req: Request, res: Response) => {
     try {
         const { id } = req.params;

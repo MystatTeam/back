@@ -1,6 +1,4 @@
 import { IGroupDiscipline, IGroupDisciplineModel, GroupDisciplineModel } from "../models/GroupDisciplineModel";
-import bcrypt from 'bcrypt';
-const jwt = require('jsonwebtoken');
 
 class GroupDisciplineService {
     async createGroupDiscipline(studentData: Partial<IGroupDiscipline>): Promise<IGroupDisciplineModel> {    

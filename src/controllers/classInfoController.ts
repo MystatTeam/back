@@ -6,7 +6,7 @@ export const post = async (req: Request, res: Response) => {
     try {
         const { ...classInfoData } = req.body;
 
-        const createdClassInfo: IClassInfoModel = await ClassInfoService.createClass({
+        const createdClassInfo: IClassInfoModel = await ClassInfoService.createClassInfo({
                 
             ...classInfoData
         });
@@ -25,7 +25,7 @@ export const post = async (req: Request, res: Response) => {
 
 export const getAll = async (req: Request, res: Response) => {
     try {
-        const classesInfos: IClassInfoModel[] | null = await ClassInfoService.findAllClasses();
+        const classesInfos: IClassInfoModel[] | null = await ClassInfoService.findAllClassInfos();
 
         res.status(200).json(classesInfos);
     } catch (error) {
@@ -38,10 +38,10 @@ export const getAll = async (req: Request, res: Response) => {
 export const getById = async (req: Request, res: Response) => {
     try {
         const { id } = req.params;
-        const result: IClassInfoModel | null = await ClassInfoService.findClassById(id);
+        const result: IClassInfoModel | null = await ClassInfoService.findClassInfoById(id);
 
         if (!result)
-            return res.status(404).json({message: "Class not found"});
+            return res.status(404).json({message: "Class Info not found"});
         
         res.status(200).json(
             result
@@ -52,12 +52,31 @@ export const getById = async (req: Request, res: Response) => {
         });
     }
 }
+
+export const getByStudentId = async (req: Request, res: Response) => {
+    try {
+        const { id } = req.params;
+        const result: IClassInfoModel[] | null = await ClassInfoService.findClassInfoByStudentId(id);
+
+        if (!result || result.length === 0)
+            return res.status(404).json({message: "Class Info not found"});
+        
+        res.status(200).json(
+            result
+        );
+    } catch (error) {
+        res.status(500).json({
+            message: "Internal error",
+        });
+    }
+}
+
 export const patch = async (req: Request, res: Response) => {
     try {
         const { id } = req.params;
         const {...newData} = req.body;
 
-        const result: IClassInfoModel | null = await ClassInfoService.updateClass(id, newData);
+        const result: IClassInfoModel | null = await ClassInfoService.updateClassInfo(id, newData);
 
         if (!result)
             return res.status(404).json({message: "Class Info not found"});
@@ -76,7 +95,7 @@ export const remove = async (req: Request, res: Response) => {
     try {
         const { id } = req.params;
 
-        const result: IClassInfoModel | null = await ClassInfoService.removeClass(id);
+        const result: IClassInfoModel | null = await ClassInfoService.removeClassInfo(id);
 
         if (!result)
             return res.status(404).json({message: "Class Info not found"});

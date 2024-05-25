@@ -13,5 +13,7 @@ router.post('/students', upload.single('file'), StudentController.post);
 router.patch('/students/:id', upload.single('file'), StudentController.patch);
 router.delete('/students/:id', StudentController.remove);
 
-
+// mystat
+router.get('/mystat/students/:id', StudentController.getById)
+router.get('/mystat/students/:id/rewards', StudentController.getStudentRewards);
 export default router;

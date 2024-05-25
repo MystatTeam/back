@@ -10,5 +10,7 @@ router.post('/student-groups', StudentGroupController.post);
 router.patch('/student-groups/:id', StudentGroupController.patch);
 router.delete('/student-groups/:id', StudentGroupController.remove);
 
-
+// mystat
+router.get('/mystat/student-groups/student/:id', StudentGroupController.getByStudentId);
+router.get('/mystat/student-groups/group/:id', StudentGroupController.getByGroupId);
 export default router;

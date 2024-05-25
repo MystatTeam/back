@@ -67,6 +67,46 @@ export const getAllOfTeachersHomeworksFilteredByID = async (req: Request, res: R
 
 }
 
+export const getAllHomeworksByStudentId = async (req: Request, res: Response) => {
+    try {
+        const { id } = req.params;
+
+        const result: IHomeworkModel[] | null = await HomeworkService.findAllHomeworksByStudentId(id);
+
+        if (!result || result.length === 0)
+            return res.status(404).json({message: "Not found"});
+
+        res.status(200).json(
+            result
+        );
+    }
+    catch {
+        res.status(500).json({
+            message: "Internal error",
+        });
+    }
+}
+
+export const getAllHomeworksByStudentIdAndDisciplineId = async (req: Request, res: Response) => {
+    try {
+        const { studentId, disciplineId } = req.params;
+
+        const result: IHomeworkModel[] | null = await HomeworkService.findAllHomeworksByStudentIdAndDisciplineId(studentId, disciplineId);
+
+        if (!result || result.length === 0)
+            return res.status(404).json({message: "Not found"});
+
+        res.status(200).json(
+            result
+        );
+    }
+    catch {
+        res.status(500).json({
+            message: "Internal error",
+        });
+    }
+}
+
 export const submitHomework = async (req: Request, res: Response) => {
     try {
         const {id, ...homeworkData } = req.body;

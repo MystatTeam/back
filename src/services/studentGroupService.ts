@@ -21,6 +21,11 @@ class StudentGroupService {
     async findAllStudentsInGroup(groupID: string): Promise<IStudentGroupModel[]> {
         return await StudentGroupModel.find({groupID: groupID}).populate(['groupID', 'studentID']);
     }
+    async findAllGroupsByStudentId(id: string): Promise<IStudentGroupModel[] | null> {
+        return await StudentGroupModel.find({
+            studentID: id
+        }).populate(['groupID', 'studentID']);
+    }
     async updateStudentGroup(id: string, userData: Partial<IStudentGroup>): Promise<IStudentGroupModel | null> {
         return await StudentGroupModel.findByIdAndUpdate({_id: id}, userData, {
             new: true

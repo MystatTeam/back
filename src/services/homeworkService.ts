@@ -19,6 +19,17 @@ class HomeworkService {
         homeworkData.needsToBeChecked = true
         return await HomeworkModel.find(homeworkData).populate('classID').populate('teacherID');;
     }
+    async findAllHomeworksByStudentId(id: string): Promise<IHomeworkModel[] | null> {
+        return await HomeworkModel.find({
+            studentID: id
+        }).populate(['teacherID', 'classID', 'disciplineID']);
+    }
+    async findAllHomeworksByStudentIdAndDisciplineId(studentID: string, disciplineID: string): Promise<IHomeworkModel[] | null> {
+        return await HomeworkModel.find({
+            studentID,
+            disciplineID
+        }).populate(['teacherID', 'classID', 'disciplineID']);
+    }
     async submitHomework(id: string, homeworkData: Partial<IHomework>): Promise<IHomeworkModel | null> {
         homeworkData.needsToBeChecked = true
         return await HomeworkModel.findOneAndUpdate({_id: id}, homeworkData);

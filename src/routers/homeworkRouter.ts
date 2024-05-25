@@ -16,4 +16,9 @@ router.post('/grade-homework', HomeworkController.gradeHomework);
 router.patch('/homeworks/:id', upload.single('file'), HomeworkController.patch);
 router.delete('/homeworks/:id', HomeworkController.remove);
 
+
+// mystat
+router.get('/mystat/homeworks/student/:id', HomeworkController.getAllHomeworksByStudentId);
+router.get('/mystat/homeworks/student/:studentId/discipline/:disciplineId', HomeworkController.getAllHomeworksByStudentIdAndDisciplineId);
+
 export default router;

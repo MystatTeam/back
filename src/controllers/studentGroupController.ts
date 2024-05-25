@@ -60,6 +60,46 @@ export const getById = async (req: Request, res: Response) => {
     }
 }
 
+export const getByStudentId = async (req: Request, res: Response) => {
+    try {
+        const { id } = req.params;
+
+        const result: IStudentGroupModel[] | null = await StudentGroupService.findAllGroupsByStudentId(id);
+
+        if (!result || result.length === 0)
+            return res.status(404).json({message: "Not found"});
+
+        res.status(200).json(
+            result
+        );
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({
+            message: "Internal error"
+        });
+    }
+}
+
+export const getByGroupId = async (req: Request, res: Response) => {
+    try {
+        const { id } = req.params;
+
+        const result: IStudentGroupModel[] | null = await StudentGroupService.findAllStudentsInGroup(id);
+
+        if (!result || result.length === 0)
+            return res.status(404).json({message: "Not found"});
+
+        res.status(200).json(
+            result
+        );
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({
+            message: "Internal error"
+        });
+    }
+}
+
 export const patch = async (req: Request, res: Response) => {
     try {
         const { id } = req.params;
