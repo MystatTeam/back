@@ -18,6 +18,11 @@ class TeacherDisciplineService {
     async findTeacherDisciplineById(id: string): Promise<ITeacherDisciplineModel | null> {
         return await TeacherDisciplineModel.findById(id).populate(['teacherID', 'disciplineID']);
     }
+    async findTeachersByDisciplineId(id: string): Promise<ITeacherDisciplineModel[] | null> {
+        return await TeacherDisciplineModel.find({
+            disciplineID: id
+        }).populate(['teacherID', 'disciplineID']);
+    }
     async updateTeacherDiscipline(id: string, userData: Partial<ITeacherDiscipline>): Promise<ITeacherDisciplineModel | null> {
         return await TeacherDisciplineModel.findByIdAndUpdate({_id: id}, userData, {
             new: true

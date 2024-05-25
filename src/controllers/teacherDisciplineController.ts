@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import TeacherDisciplineService from "../services/teacherDisciplineService";
-import { ITeacherDisciplineModel } from "../models/TeacherDisciplineModel";
+import { ITeacherDisciplineModel, TeacherDisciplineModel } from "../models/TeacherDisciplineModel";
+import teacherDisciplineService from "../services/teacherDisciplineService";
 
 export const post = async (req: Request, res: Response) => {
     try {
@@ -57,6 +58,27 @@ export const getById = async (req: Request, res: Response) => {
         res.status(500).json({
             message: "Internal error",
         });
+    }
+}
+
+export const getByDisciplineId = async (req: Request, res: Response) => {
+    try {
+        const { id } = req.params;
+
+        const result = await teacherDisciplineService.findTeachersByDisciplineId(id);
+        console.log(result);
+
+        if (!result)
+            return res.status(404).json({message: "Not found"});
+
+        res.status(200).json(
+            result
+        );
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({
+            message: "Internal error"
+        })
     }
 }
 

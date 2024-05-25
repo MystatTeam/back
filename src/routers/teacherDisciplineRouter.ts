@@ -6,6 +6,7 @@ const router: Router = express.Router();
 
 router.get('/teacher-disciplines', teacherDisciplineController.getAll);
 router.get('/teacher-disciplines/:id', teacherDisciplineController.getById);
+router.get('/teacher-disciplines/discipline/:id', teacherDisciplineController.getByDisciplineId);
 router.post('/teacher-disciplines', teacherDisciplineController.post);
 router.patch('/teacher-disciplines/:id', teacherDisciplineController.patch);
 router.delete('/teacher-disciplines/:id', teacherDisciplineController.remove);
