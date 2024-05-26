@@ -54,6 +54,9 @@ export const getAllByStudentId = async (req: Request, res: Response) => {
 
         const feedbacks: IFeedbackModel[] | null = await FeedbackService.findAllFeedbacksByStudentId(studentId);
 
+        if (!feedbacks || feedbacks.length === 0)
+            return res.status(404).json({message: "Feedbacks not found"});
+
         res.status(200).json(
             feedbacks
         );

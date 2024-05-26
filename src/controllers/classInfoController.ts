@@ -17,6 +17,7 @@ export const post = async (req: Request, res: Response) => {
         
         
     } catch (error) {
+        console.log(error);
         res.status(500).json({
             message: "Internal error",
         });
@@ -86,6 +87,28 @@ export const patch = async (req: Request, res: Response) => {
             classData,
         });
     } catch (error) {
+        res.status(500).json({
+            message: "Internal error",
+        });
+    }
+}
+export const patchMany = async (req: Request, res: Response) => {
+    console.log("Hellooo");
+    try {
+        const { dataArr } = req.body;
+        console.log(dataArr);
+
+        const result: IClassInfoModel | null = await ClassInfoService.updateManyClassInfos(dataArr);
+
+        if (!result)
+            return res.status(404).json({message: "Class Info not found"});
+        
+        console.log(result);
+        res.status(200).json(
+            result
+        );
+    } catch (error) {
+        console.log(error);
         res.status(500).json({
             message: "Internal error",
         });

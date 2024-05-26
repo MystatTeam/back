@@ -25,6 +25,15 @@ class StudentService {
             new: true
         });
     }
+    async updateStudentStats(id: string, data: any) {
+        console.log(data);
+        return await StudentModel.findByIdAndUpdate({_id: id}, {
+            $inc: {
+                    "stats.diamonds": data.diamonds,
+                    "stats.coins": data.coins
+                },
+        });
+    }
     async removeStudent(id: string): Promise<IStudentModel | null> {
         await StudentGroupModel.deleteMany({studentID: id})
         return await StudentModel.findByIdAndDelete(id);

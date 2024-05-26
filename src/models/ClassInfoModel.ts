@@ -42,6 +42,5 @@ const ClassInfoSchema: Schema = new Schema<IClassInfo>(
     }
 );
 
-ClassInfoSchema.index({disciplineID: 1, startTime: 1, groupID: 1}, {unique: true});
 // model for interaction with db (operations: create, findById, find, etc.)
 export const ClassInfoModel = model<IClassInfoModel>('ClassInfo', ClassInfoSchema);
