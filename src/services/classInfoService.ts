@@ -31,7 +31,6 @@ class ClassService {
         const updatePromises = data.map(item => {
             return new Promise((res, rej) => {
                 const { _id, studentID, state, mark } = item;
-                console.log("Grade", mark);
                 ClassInfoModel.findByIdAndUpdate(
                     {_id},
                     {

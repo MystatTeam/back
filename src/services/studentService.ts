@@ -26,7 +26,6 @@ class StudentService {
         });
     }
     async updateStudentStats(id: string, data: any) {
-        console.log(data);
         return await StudentModel.findByIdAndUpdate({_id: id}, {
             $inc: {
                     "stats.diamonds": data.diamonds,
