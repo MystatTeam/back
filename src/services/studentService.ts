@@ -1,7 +1,7 @@
 import { IStudent, IStudentModel, StudentModel } from "../models/StudentModel";
 import { StudentGroupModel } from "../models/StudentGroupModel";
 import bcrypt from 'bcrypt';
-const jwt = require('jsonwebtoken');
+import jwt from 'jsonwebtoken'
 
 class StudentService {
     async createStudent(password: string, studentData: Partial<IStudent>): Promise<IStudentModel> {
@@ -44,16 +44,23 @@ class StudentService {
         return await bcrypt.hash(pwd, 10);
     }
     async signAccessToken(login: string): Promise<string> {
+        console.log(process.env.ACCESS_TOKEN_SECRET);
         return jwt.sign(
-            { "username": login },
-            process.env.ACCESS_TOKEN_SECRET,
-            { expiresIn: '1m' }
+            { "username": login, roles: {
+                    User: true,
+                    Admin: false,
+                    Teacher: false,
+                    Editor: false
+                } 
+            },
+            process.env.ACCESS_TOKEN_SECRET as string,
+            { expiresIn: '1d' }
         );
     }
     async signRefreshToken(login: string): Promise<string> {
         return jwt.sign(
             { "username": login },
-            process.env.REFRESH_TOKEN_SECRET,
+            process.env.REFRESH_TOKEN_SECRET as string,
             { expiresIn: '1d' }
         );
     }

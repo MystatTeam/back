@@ -18,7 +18,7 @@ import homeworkRouter from './routers/homeworkRouter.js';
 
 import feedbackRouter from './routers/feedbackRouter.js';
 
-import errorHandler from './middleware/errorHandler.js';
+import errorHandler from './middlewares/errorHandler.js';
 import './db/index.js';
 import cookieParser from 'cookie-parser';
 

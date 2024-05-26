@@ -2,6 +2,8 @@ import express, { Router } from 'express';
 
 import * as HomeworkController from '../controllers/homeworkController.js';
 import multer from 'multer';
+import verifyJWT from '../middlewares/verifyJWT.js';
+import checkRole from '../middlewares/checkRole.js';
 
 const router: Router = express.Router();
 
@@ -18,7 +20,7 @@ router.delete('/homeworks/:id', HomeworkController.remove);
 
 
 // mystat
-router.get('/mystat/homeworks/student/:id', HomeworkController.getAllHomeworksByStudentId);
-router.get('/mystat/homeworks/student/:studentId/discipline/:disciplineId', HomeworkController.getAllHomeworksByStudentIdAndDisciplineId);
+router.get('/mystat/homeworks/student/:id', verifyJWT, checkRole('User'), HomeworkController.getAllHomeworksByStudentId);
+router.get('/mystat/homeworks/student/:studentId/discipline/:disciplineId', verifyJWT, checkRole('User'), HomeworkController.getAllHomeworksByStudentIdAndDisciplineId);
 
 export default router;
