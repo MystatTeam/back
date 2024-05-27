@@ -6,11 +6,11 @@ import checkRole from '../middlewares/checkRole';
 
 const router: Router = express.Router();
 
-router.get('/student-groups', StudentGroupController.getAll);
-router.get('/student-groups/:id', StudentGroupController.getById);
-router.post('/student-groups', StudentGroupController.post);
-router.patch('/student-groups/:id', StudentGroupController.patch);
-router.delete('/student-groups/:id', StudentGroupController.remove);
+router.get('/student-groups', verifyJWT, checkRole('Teacher'), StudentGroupController.getAll);
+router.get('/student-groups/:id', verifyJWT, checkRole('Teacher'), StudentGroupController.getById);
+router.post('/student-groups', verifyJWT, checkRole('Editor'), StudentGroupController.post);
+router.patch('/student-groups/:id', verifyJWT, checkRole('Editor'), StudentGroupController.patch);
+router.delete('/student-groups/:id', verifyJWT, checkRole('Editor'), StudentGroupController.remove);
 
 // mystat
 router.get('/mystat/student-groups/student/:id', verifyJWT, checkRole('User'), StudentGroupController.getByStudentId);

@@ -10,11 +10,11 @@ const router: Router = express.Router();
 
 const upload = multer();
 
-router.get('/students',  StudentController.getAll);
-router.get('/students/:id', StudentController.getById);
-router.post('/students', upload.single('file'), StudentController.post);
-router.patch('/students/:id', upload.single('file'), StudentController.patch);
-router.delete('/students/:id', StudentController.remove);
+router.get('/students', verifyJWT, checkRole('Teacher'), StudentController.getAll);
+router.get('/students/:id', verifyJWT, checkRole('Teacher'), StudentController.getById);
+router.post('/students', verifyJWT, checkRole('Editor'), upload.single('file'), StudentController.post);
+router.patch('/students/:id', verifyJWT, checkRole('Editor'), upload.single('file'), StudentController.patch);
+router.delete('/students/:id', verifyJWT, checkRole('Editor'), StudentController.remove);
 
 // mystat
 router.get('/mystat/students/:id', verifyJWT, checkRole('User'), StudentController.getById)

@@ -16,6 +16,8 @@ class TeacherService {
         return await TeacherModel.findById(id);
     }
     async updateTeacher(id: string, userData: Partial<ITeacher>): Promise<ITeacherModel | null> {
+        console.log(userData);
+        console.log(id);
         return await TeacherModel.findByIdAndUpdate({_id: id}, userData, {
             new: true
         });
@@ -30,7 +32,21 @@ class TeacherService {
     async checkIfUserExists(login: string): Promise<ITeacherModel | null> {
         return await TeacherModel.findOne({ login: login}).exec();
     }
-
+    async signAccessToken(login: string, roles: object): Promise<string> {
+        console.log(process.env.ACCESS_TOKEN_SECRET);
+        return jwt.sign(
+            { "username": login, roles },
+            process.env.ACCESS_TOKEN_SECRET as string,
+            { expiresIn: '1d' }
+        );
+    }
+    async signRefreshToken(login: string, roles: object): Promise<string> {
+        return jwt.sign(
+            { "username": login },
+            process.env.REFRESH_TOKEN_SECRET as string,
+            { expiresIn: '1d' }
+        );
+    }
 }
 
 export default new TeacherService();

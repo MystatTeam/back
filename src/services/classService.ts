@@ -10,6 +10,11 @@ class ClassService {
     async findClassById(id: string): Promise<IClassModel | null> {
         return await ClassModel.findById(id).populate(['disciplineID', 'teacherID']);
     }
+    async findAllClassesByGroupId(id: string): Promise<IClassModel[] | null> {
+        return await ClassModel.find({
+            groupID: id
+        }).populate(['disciplineID', 'teacherID', 'groupID']);
+    }
     async updateClass(id: string, userData: Partial<IClass>): Promise<IClassModel | null> {
         return await ClassModel.findByIdAndUpdate({_id: id}, userData, {
             new: true

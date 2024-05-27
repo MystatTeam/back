@@ -21,6 +21,7 @@ import feedbackRouter from './routers/feedbackRouter.js';
 import errorHandler from './middlewares/errorHandler.js';
 import './db/index.js';
 import cookieParser from 'cookie-parser';
+import verifyJWT from './middlewares/verifyJWT.js';
 
 const PORT = process.env.PORT || 3000;
 

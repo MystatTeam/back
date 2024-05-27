@@ -49,6 +49,26 @@ export const getById = async (req: Request, res: Response) => {
         });
     }
 }
+
+export const getByGroupId = async (req: Request, res: Response) => {
+    try {
+        const { id } = req.params;
+
+        const result = await ClassService.findAllClassesByGroupId(id);
+
+        if (!result || result.length === 0)
+            return res.status(404).json({message: "not found"});
+
+        res.status(200).json(
+            result
+        );
+    } catch (error) {
+        res.status(500).json({
+            message: "Internal error",
+        });
+    }
+}
+
 export const patch = async (req: Request, res: Response) => {
     try {
         const { id } = req.params;
